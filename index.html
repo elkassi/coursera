@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accessible Interactive Photo Gallery</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    h1 {
+      margin: 20px 0;
+    }
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin: 20px;
+    }
+    figure {
+      position: relative;
+      margin: 0;
+      cursor: pointer;
+    }
+    figure img {
+      width: 150px;
+      height: 100px;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+    figure img:hover {
+      transform: scale(1.1);
+    }
+    figure figcaption {
+      position: absolute;
+      bottom: 5px;
+      left: 5px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      font-size: 14px;
+      padding: 3px;
+      border-radius: 3px;
+      display: none;
+    }
+    figure:focus figcaption,
+    figure:hover figcaption {
+      display: block;
+    }
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+    }
+    .modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal img {
+      max-width: 80%;
+      max-height: 80%;
+      border: 5px solid white;
+    }
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 30px;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Accessible Interactive Photo Gallery</h1>
+  <div class="gallery">
+    <figure tabindex="0">
+      <img src="https://via.placeholder.com/300x200/FF5733/FFFFFF?text=Image+1" alt="A colorful landscape 1">
+      <figcaption>Landscape 1</figcaption>
+    </figure>
+    <figure tabindex="0">
+      <img src="https://via.placeholder.com/300x200/33FF57/FFFFFF?text=Image+2" alt="A colorful landscape 2">
+      <figcaption>Landscape 2</figcaption>
+    </figure>
+    <figure tabindex="0">
+      <img src="https://via.placeholder.com/300x200/3357FF/FFFFFF?text=Image+3" alt="A colorful landscape 3">
+      <figcaption>Landscape 3</figcaption>
+    </figure>
+    <figure tabindex="0">
+      <img src="https://via.placeholder.com/300x200/FF33A6/FFFFFF?text=Image+4" alt="A colorful landscape 4">
+      <figcaption>Landscape 4</figcaption>
+    </figure>
+  </div>
+
+  <div class="modal">
+    <span class="close">&times;</span>
+    <img src="" alt="Enlarged preview">
+  </div>
+
+  <script>
+    // JavaScript for Interactivity
+
+    // Select elements
+    const figures = document.querySelectorAll('figure');
+    const modal = document.querySelector('.modal');
+    const modalImg = modal.querySelector('img');
+    const closeModal = document.querySelector('.close');
+
+    // Open modal on click or keyboard Enter
+    figures.forEach(figure => {
+      figure.addEventListener('click', () => openModal(figure));
+      figure.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          openModal(figure);
+        }
+      });
+    });
+
+    // Function to open modal
+    function openModal(figure) {
+      const img = figure.querySelector('img');
+      modalImg.src = img.src;
+      modalImg.alt = img.alt;
+      modal.classList.add('active');
+    }
+
+    // Close modal on click
+    closeModal.addEventListener('click', () => {
+      modal.classList.remove('active');
+    });
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        modal.classList.remove('active');
+      }
+    });
+
+    // Automatically add tabindex to figures
+    document.querySelectorAll('figure').forEach((figure) => {
+      figure.setAttribute('tabindex', '0');
+    });
+  </script>
+</body>
+</html>
