@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Photo Gallery</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin: 20px;
+    }
+    .gallery img {
+      width: 150px;
+      height: 100px;
+      object-fit: cover;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .gallery img:hover {
+      transform: scale(1.1);
+    }
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+    }
+    .modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal img {
+      max-width: 80%;
+      max-height: 80%;
+    }
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="gallery">
+  <img src="https://via.placeholder.com/300x200/FF5733/FFFFFF?text=Landscape+1" alt="Landscape 1">
+  <img src="https://via.placeholder.com/300x200/33FF57/FFFFFF?text=Landscape+2" alt="Landscape 2">
+  <img src="https://via.placeholder.com/300x200/3357FF/FFFFFF?text=Landscape+3" alt="Landscape 3">
+  <img src="https://via.placeholder.com/300x200/FF33A6/FFFFFF?text=Landscape+4" alt="Landscape 4">
+  <img src="https://via.placeholder.com/300x200/FFFF33/000000?text=Nature+1" alt="Nature 1">
+  <img src="https://via.placeholder.com/300x200/33FFFF/000000?text=Nature+2" alt="Nature 2">
+  <img src="https://via.placeholder.com/300x200/FF3333/000000?text=Nature+3" alt="Nature 3">
+  <img src="https://via.placeholder.com/300x200/33FF33/000000?text=Nature+4" alt="Nature 4">
+  <img src="https://via.placeholder.com/300x200/800080/FFFFFF?text=Abstract+1" alt="Abstract 1">
+  <img src="https://via.placeholder.com/300x200/FFA500/FFFFFF?text=Abstract+2" alt="Abstract 2">
+  <img src="https://via.placeholder.com/300x200/008080/FFFFFF?text=Abstract+3" alt="Abstract 3">
+  <img src="https://via.placeholder.com/300x200/800000/FFFFFF?text=Abstract+4" alt="Abstract 4">
+</div>
+
+<div class="modal">
+  <span class="close">&times;</span>
+  <img src="" alt="Preview">
+</div>
+
+<script>
+  // Select gallery images, modal, and close button
+  const gallery = document.querySelector('.gallery');
+  const modal = document.querySelector('.modal');
+  const modalImg = modal.querySelector('img');
+  const closeModal = modal.querySelector('.close');
+
+  // Function to open modal with the clicked image
+  gallery.addEventListener('click', (e) => {
+    if (e.target.tagName === 'IMG') {
+      modal.classList.add('active');
+      modalImg.src = e.target.src;
+      modalImg.alt = e.target.alt;
+    }
+  });
+
+  // Function to close the modal
+  closeModal.addEventListener('click', () => {
+    modal.classList.remove('active');
+  });
+
+  // Close modal on outside click
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.remove('active');
+    }
+  });
+</script>
+
+</body>
+</html>
